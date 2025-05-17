@@ -48,9 +48,22 @@
                             </div>
                         @enderror
                         <div class="row mb-3">
-                            <div class="col-sm-2"></div>
-                            <div class="col-sm-10" id="showPaymentType" class="fw-semibold text-info"></div>
-                        </div>
+    <label class="col-sm-2 col-form-label fw-semibold text-dark">Method</label>
+    <div class="col-sm-10 d-flex flex-column flex-md-row gap-3">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_method" id="cash" value="Cash" checked>
+            <label class="form-check-label" for="cash">Cash</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_method" id="gcash" value="GCash">
+            <label class="form-check-label" for="gcash">GCash</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="payment_method" id="credit_card" value="Credit Card">
+            <label class="form-check-label" for="credit_card">Credit Card</label>
+        </div>
+    </div>
+</div>
                         <div class="text-end">
                             <button class="btn btn-success px-4 shadow-sm"><i class="fas fa-money-bill-wave me-1"></i> Pay</button>
                         </div>

@@ -202,33 +202,59 @@
                             <div class="hotel-divider"></div>
                         </div>
 
+                        @php
+    $taxRate = 0.12; // 12%
+    $baseTotal = $payment->transaction->getTotalPrice();
+    $taxAmount = $baseTotal * $taxRate;
+    $grandTotal = $baseTotal + $taxAmount;
+@endphp
+
+
                         <!-- Payment Summary -->
                         <div class="mb-4">
                             <div class="hotel-section-title mb-2">Payment Summary</div>
                             <table class="hotel-table">
-                                <tr>
-                                    <td class="hotel-content">Minimum Down Payment</td>
-                                    <td class="hotel-content text-right">
-                                        {{ Helper::convertToPesos($payment->transaction->getMinimumDownPayment()) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="hotel-content">Amount Paid</td>
-                                    <td class="hotel-content hotel-amount text-right">
-                                        {{ Helper::convertToPesos($payment->price) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="hotel-content">Remaining Balance</td>
-                                    <td class="hotel-content hotel-balance text-right">
-                                        @if($payment->transaction->getTotalPrice() - $payment->transaction->getTotalPayment() <= 0)
-                                            -
-                                        @else
-                                            {{ Helper::convertToPesos($payment->transaction->getTotalPrice($payment->transaction->room->price, $payment->transaction->check_in, $payment->transaction->check_out) - $payment->transaction->getTotalPayment()) }}
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
+    <tr>
+        <td class="hotel-content">Minimum Down Payment</td>
+        <td class="hotel-content text-right">
+            {{ Helper::convertToPesos($payment->transaction->getMinimumDownPayment()) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="hotel-content">Subtotal</td>
+        <td class="hotel-content text-right">
+            {{ Helper::convertToPesos($baseTotal) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="hotel-content">Tax (12%)</td>
+        <td class="hotel-content text-right">
+            {{ Helper::convertToPesos($taxAmount) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="hotel-content font-weight-bold">Grand Total</td>
+        <td class="hotel-content hotel-amount text-right font-weight-bold">
+            {{ Helper::convertToPesos($grandTotal) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="hotel-content">Amount Paid</td>
+        <td class="hotel-content hotel-amount text-right">
+            {{ Helper::convertToPesos($payment->price) }}
+        </td>
+    </tr>
+    <tr>
+        <td class="hotel-content">Remaining Balance</td>
+        <td class="hotel-content hotel-balance text-right">
+            @php
+                $balance = $grandTotal - $payment->transaction->getTotalPayment();
+            @endphp
+            {{ $balance <= 0 ? '-' : Helper::convertToPesos($balance) }}
+        </td>
+    </tr>
+</table>
+
                             <div class="hotel-divider"></div>
                         </div>
 
